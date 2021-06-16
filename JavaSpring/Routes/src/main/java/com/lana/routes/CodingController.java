@@ -9,7 +9,7 @@ public class CodingController {
 	
 @RequestMapping("")
 	public String first() {
-		return "/'Hello coding Dojo!/'";
+		return "Hello coding Dojo!";
 	}
 
 @RequestMapping("/python")
