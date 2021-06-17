@@ -9,11 +9,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/your_server")
 
 public class CounterController {
-	int counter;
+
 	
 @RequestMapping("")
-public String count1() {
-	this.counter ++;
+public String count1(HttpSession session) {
+	if(session.getAttribute("count") == null) {
+		 session.setAttribute("count", 0);
+		 
+	}
+	else {
+		increment(session);
+		 
+		 
+	}
 	
 	
 	return "index.jsp";
@@ -21,9 +29,16 @@ public String count1() {
 	
 }
 
+public void increment(HttpSession session) {
+	 int counter = (int) session.getAttribute("count");
+	 counter++;
+	 session.setAttribute("count",counter);
+	
+}
+
 @RequestMapping("/counter")
 public String count2(HttpSession session ) {
-	 session.setAttribute("count", this.counter);
+	
      Integer count = (Integer) session.getAttribute("count");
 
 	
