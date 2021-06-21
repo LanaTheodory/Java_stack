@@ -29,18 +29,18 @@
         <form:form action="/languages/add" method="post" modelAttribute="language">
     <p>
         <form:label path="name">Name</form:label>
-        <form:errors path="name"/>
         <form:input path="name"/>
+        <form:errors path="name"/>
     </p>
     <p>
         <form:label path="creator">Creator</form:label>
-        <form:errors path="creator"/>
         <form:input path="creator"/>
+        <form:errors path="creator"/>
     </p>
     <p>
         <form:label path="currentVersion">Version</form:label>
-        <form:errors path="currentVersion"/>
         <form:input path="currentVersion"/>
+        <form:errors path="currentVersion"/>
     </p>
     
     <input type="submit" value="Submit"/>
