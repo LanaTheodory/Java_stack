@@ -16,70 +16,79 @@ import com.lana.lang.models.Language;
 
 import com.lana.lang.services.LanguageService;
 
-
-
-
 @Controller
 public class LanguageController {
-	private final LanguageService LanguageService ;
-	
-	public LanguageController(LanguageService  LanguageService  ) {
-		this.LanguageService  = LanguageService ;
-		
-	}
-	
-	 @RequestMapping("/language")
-	 public String index(Model model,@ModelAttribute("language")Language languages) {
-	     List<Language> language1 = LanguageService.alllangs();
-//	     Language language=new Language();
-	     model.addAttribute("languages", language1);
-//	     model.addAttribute("language", language);
-	     return "index1.jsp";
-	}
-	 @RequestMapping("/languages/edit/{id}")
-	 public String edit(Model model, @PathVariable("id") long id) {
-	     Language lang1 = LanguageService.findlang(id);
-	     model.addAttribute("language", lang1);
-	     return "edit.jsp";
-	}
-	 
-	 @RequestMapping(value="/languages/update/{id}", method=RequestMethod.PUT)
-	    public String update(@Valid  @PathVariable("id") Long id, @ModelAttribute("name") String name,@ModelAttribute("creator") String creator,@ModelAttribute("currentVersion") double currentVersion,  BindingResult result) {
-	        if (result.hasErrors()) {
-	            return "edit.jsp";
-	        } else {
-	        	
-	      
-        	LanguageService.updatelan(id, name, creator, currentVersion);
-	            return "redirect:/language";
-	        }
-	    }
+	private final LanguageService LanguageService;
 
-	 
-	 @RequestMapping(value="/languages/add", method=RequestMethod.POST)
-	 public String create(@Valid @ModelAttribute("language")Language lang, BindingResult result, Model model) {
-		 System.out.println("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
-	     if (result.hasErrors()) {
-	    	 List<Language> alllang = LanguageService.alllangs();
-		     model.addAttribute("languages", alllang);
-	        return "index1.jsp";
-	     } else {
-	    	
-	    	 LanguageService.createLanguage(lang);
-	         return "redirect:/language";
-	     }
-	 }
-	 @RequestMapping(value="/languages/delete/{id}")
-	    public String delete(@PathVariable("id") Long id) {
+	public LanguageController(LanguageService LanguageService) {
+		this.LanguageService = LanguageService;
+
+	}
+
+	@RequestMapping("/language")
+	public String index(Model model, @ModelAttribute("language") Language languages) {
+		List<Language> language1 = LanguageService.alllangs();
+//	     Language language=new Language();
+		model.addAttribute("languages", language1);
+//	     model.addAttribute("language", language);
+		return "index1.jsp";
+	}
+
+	@RequestMapping("/languages/edit/{id}")
+	public String edit(Model model, @PathVariable("id") long id) {
+		Language lang1 = LanguageService.findlang(id);
+		model.addAttribute("language", lang1);
+		return "edit.jsp";
+	}
+
+//	@RequestMapping(value = "/languages/update/{id}", method = RequestMethod.PUT)
+//	public String update(@Valid @PathVariable("id") Long id, @ModelAttribute("name") String name,
+//			@ModelAttribute("creator") String creator, @ModelAttribute("currentVersion") double currentVersion,
+//			BindingResult result) {
+//		if (result.hasErrors()) {
+//			return "edit.jsp";
+//		} else {
+//
+//			LanguageService.updatelan(id, name, creator, currentVersion);
+//			return "redirect:/language";
+//		}
+	@RequestMapping(value = "/languages/update/{id}", method = RequestMethod.PUT)
+	public String update(@Valid  @ModelAttribute("language") Language lan, BindingResult result) {
+		if (result.hasErrors()) {
+			return "edit.jsp";
+		} else {
+
+			LanguageService.updatelan( lan);
+			return "redirect:/language";
+		}
+	}
+
+	@RequestMapping(value = "/languages/add", method = RequestMethod.POST)
+	public String create(@Valid @ModelAttribute("language") Language lang, BindingResult result, Model model) {
 		
-		 LanguageService.deletelang(id);
-		 
-	        return "redirect:/language";
-	    }
-	 @RequestMapping("/languages/show/{id}")
-		public String show(@PathVariable("id") Long id, Model model) {
-			Language lang = LanguageService.findlang(id);
-			   model.addAttribute("language", lang);
-			 return "show.jsp";
+		if (result.hasErrors()) {
+			List<Language> alllang = LanguageService.alllangs();
+			model.addAttribute("languages", alllang);
+			return "index1.jsp";
+		} else {
+
+			LanguageService.createLanguage(lang);
+			return "redirect:/language";
+		}
+	}
+
+	@RequestMapping(value = "/languages/delete/{id}")
+	public String delete(@PathVariable("id") Long id) {
+
+		LanguageService.deletelang(id);
+
+		return "redirect:/language";
+	}
+
+	@RequestMapping("/languages/show/{id}")
+	public String show(@PathVariable("id") Long id, Model model) {
+		Language lang = LanguageService.findlang(id);
+		model.addAttribute("language", lang);
+		return "show.jsp";
 	}
 }

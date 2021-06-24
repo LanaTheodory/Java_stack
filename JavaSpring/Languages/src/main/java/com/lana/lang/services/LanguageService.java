@@ -34,12 +34,16 @@ public class LanguageService {
 			return null;
 		}
 	}
-	public Language updatelan(Long id, String name, String creator, double currentVersion) {
-
-		Language lan = languageRepo.findById(id).orElse(null);
-		lan.setName(name);
-		lan.setCreator(creator);
-		lan.setCurrentVersion(currentVersion);
+//	public Language updatelan(Long id, String name, String creator, double currentVersion) {
+//
+//		Language lan = languageRepo.findById(id).orElse(null);
+//		lan.setName(name);
+//		lan.setCreator(creator);
+//		lan.setCurrentVersion(currentVersion);
+//		return languageRepo.save(lan);
+//	}
+	public Language updatelan(Language lan) {
+		
 		return languageRepo.save(lan);
 	}
 	public void deletelang(Long id) {
