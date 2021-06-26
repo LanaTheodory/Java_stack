@@ -41,7 +41,7 @@ public class PersonLicenseController {
 	}
 	@RequestMapping("/license")
 	public String license(@ModelAttribute("license") License license, Model model) {
-		model.addAttribute("people", servicePL.allPeople());
+		model.addAttribute("people", servicePL.peopleWithoutLicense());
 		
 		return "license.jsp";
 	}

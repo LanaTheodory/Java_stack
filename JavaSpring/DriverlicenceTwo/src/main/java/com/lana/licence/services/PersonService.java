@@ -50,6 +50,8 @@ public List<License > allLicenses(){
 public Person findPerson(Long id) {
 	return personrepo.findById(id).orElse(null);
 }
-	
+	public List<Person> peopleWithoutLicense(){
+		return personrepo.findByLicenseIdIsNull();
+	}
 
 }
