@@ -7,10 +7,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+
+import com.lana.loginreg.models.State;
 import com.lana.loginreg.models.User;
 import com.lana.loginreg.services.UserService;
 import com.lana.loginreg.validation.UserValidate;
@@ -27,7 +30,8 @@ public class UserController {
 	        this.userValidator = userValidator;
 	    }
 	@RequestMapping("/registration")
-	public String registerForm(@ModelAttribute("user") User user) {
+	public String registerForm(@ModelAttribute("user") User user, Model model) {
+		model.addAttribute("states", userService.findAllStates());
 		return "registrationPage.jsp";
 	}
 
@@ -36,7 +40,7 @@ public class UserController {
 		if(session.getAttribute("userId") != null) {
 			return "redirect:/home";
 		}
-		return "loginPage.jsp";
+		return "registrationPage.jsp";
 	}
 
 	@RequestMapping(value = "/registration", method = RequestMethod.POST)
@@ -66,7 +70,7 @@ public class UserController {
 			return "redirect:/home";
 		} else {
 			model.addAttribute("error", "Invalid user name or password");
-			return "loginPage.jsp";
+			return "registrationPage.jsp";
 		}
 	
 	}
@@ -89,5 +93,12 @@ public class UserController {
 		session.invalidate();
 		return "redirect:/login";
 	
+	}
+	////////////////////////////////////////////////////
+	@PostMapping("/addStates")
+	public State createState(@RequestParam("name") String name) {
+	    State x=new State();
+	    x.setName(name);
+	    return userService.createState(x);
 	}
 }
